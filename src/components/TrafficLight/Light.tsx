@@ -1,24 +1,25 @@
-import { LIGHT_CONFIG, type LightProps } from './types';
+import { LIGHT_CONFIG, LIGHT_STYLES } from "./config";
 
+type LightProps = {
+  color: keyof typeof LIGHT_CONFIG; // 'red' | 'yellow' | 'green'
+  isOn: boolean;
+};
 
-export const Light = ({ color, isOn, onClick }: LightProps) => {
-  const config = LIGHT_CONFIG[color];
-
-  let colorClass;
-  if (isOn) {
-    colorClass = config.styling.on;
-  } else {
-    colorClass = config.styling.off;
-  }
+export const Light = ({ color, isOn }: LightProps) => {
+  const styles = LIGHT_STYLES[color];
+  const colorClass = isOn ? styles.on : styles.off;
+  const textColor = isOn ? "text-white" : "text-black";
 
   return (
     <div
       className={`
         w-20 h-20 rounded-full transition-all duration-300
+        flex items-center justify-center
         ${colorClass}
-        ${onClick ? 'cursor-pointer hover:scale-105' : ''}
+        ${textColor}
       `}
-      onClick={onClick}
-    />
+    >
+      {color.toUpperCase()}
+    </div>
   );
 };
